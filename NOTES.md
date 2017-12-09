@@ -9,12 +9,12 @@ The notes then go into an example of a classification learning problem to demons
 
 Finally, Schapire begins to formalize the idea of a learning model (simplified to study its mathematical behavior). The goals of such a model include what is being learned, the origin of data, how it's being learned, and the goal of learning.
 
-Example (or instance): Object being classified
-Attributes (or features, variables, dimensions): Description of example
-Label (or class): Category being predicted (often simplified to 0,1)
-Domain Space (or instance space): All possible examples
-Concept: Mapping from examples to labels (of the form c : X -> {0,1}) 
-Concept Class: A collection of concepts
+- Example (or instance): Object being classified
+- Attributes (or features, variables, dimensions): Description of example
+- Label (or class): Category being predicted (often simplified to 0,1)
+- Domain Space (or instance space): All possible examples
+- Concept: Mapping from examples to labels (of the form c : X -> {0,1}) 
+- Concept Class: A collection of concepts
 
 Often, we will assume examples have been labelled by an unknown concept from a known concept class (i.e ground truth that we are trying to find/approximate). 
 
@@ -45,6 +45,11 @@ The notes then get into more boolean logic examples (kCNF, 2CNF, general CNF, wh
 Problems with the consistency model is its lack of explaining how the concept generalizes to new data. Thus it really says little about learning at all, so we need to find a new model.
 
 ### PAC Learning Model
-The goal of the PAC learning model is to develop a hypothesis with as little error as possible, rather than finding ground truth. We will answer where the examples will come from in this model. We define error as the probability that any given example x (which comes from an unknown target distribution that generates x), evaluating the hypothesis h(x) is not equivalent to the label of the consistent concept c(x).
+The goal of the PAC learning model is to develop a hypothesis with as little error as possible, rather than finding ground truth. We will answer where the examples will come from in this model. 
 
+We define error as the probability that any given example x (which comes from an unknown target distribution that generates x), evaluating the hypothesis h(x) is not equivalent to the label of the consistent concept c(x).
+
+The goal of the learning algorithm is to minimize the error for the testing dataset.
+
+## Lecture #3
 
