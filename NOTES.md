@@ -47,9 +47,34 @@ Problems with the consistency model is its lack of explaining how the concept ge
 ### PAC Learning Model
 The goal of the PAC learning model is to develop a hypothesis with as little error as possible, rather than finding ground truth. We will answer where the examples will come from in this model. 
 
-We define error as the probability that any given example x (which comes from an unknown target distribution that generates x), evaluating the hypothesis h(x) is not equivalent to the label of the consistent concept c(x).
+We define error as the probability that any given any example x (which comes from an unknown target distribution that generates x), evaluating the hypothesis h(x) is not equivalent to the true label of x.
 
-The goal of the learning algorithm is to minimize the error for the testing dataset.
+The goal of the learning algorithm is to minimize the error for the testing dataset. Somewhat obviously, since the testing dataset is randomly drawn from the unknown distribution, there is a small probability that the distribution is unrepresentative of the source distribution. Since this probability is low, we will disregard it, but that means our accuracy guarantees will be probabilistic.
+
+[https://en.wikipedia.org/wiki/Probably_approximately_correct_learning](PAC Wikipedia Article)
+[https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-045j-automata-computability-and-complexity-spring-2011/lecture-notes/MIT6_045JS11_lec19.pdf](MIT 6.045J: PAC Learning Notes)
+
+From MIT 6.045J: learning in a theoretical vacuum is impossible, so we must constrain our hypothesis space.
 
 ## Lecture #3
+This lecture starts off with a series of proofs for why certain concept classes are PAC-learnable. The first is about learning positive half-lines i.e finding a line where are points to the left are labeled - and all points to the right are labeled +. An algorithm to find an h is to scan until we find the greatest - and the smallest +, and pick any point within this interval (h will always be consistent because the hypothesis space is equivalent to the concept class).
 
+To show that the concept class is PAC-learnable, or that the generalization error is low with high probability, we show that the error is greater than epsilon with less than delta probability. We find that the error is greater than epsilon with models where h is at least epsilon away from c. These models occur when there is no training data points within at least epsilon distance away from c. 
+
+The chance that no training data points land within at least epsilon distance away from c is at least 2(1-epsilon)^m, where m is the size of the training set. If we say that this is less than or equal to delta, we find we can set m s.t. it is a function of epsilon m is the size of the training set. If we say that this is less than or equal to delta, we find we can set m s.t. it is a function of epsilon and delta, where delta is also a function of epsilon (per h). Therefore, since we can
+find an m for each epsilon to satisfy the inequality, we can find a delta that satisfies the inequality, and thus C is PAC-learnable by H.
+
+The lecture goes on in this manner with learning intervals on the real line and learning axis-aligned rectangles.
+
+Then, Schapire notes that these proofs are specific to each problem, and so we embark on finding a general PAC-learnability proof technique (for finite hypothesis spaces).
+
+Theorem: Suppose an algorithm A always finds a hypothesis consistent with m examples where m >= 1/epsilon (ln |H| + ln 1/delta). Then the probability of the generalization error for that hypothesis being greater than epsilon is less than or equal to delta (i.e the definition of PAC).
+
+The above theorem is essentially saying that if we have an algorithm that gives us a hypothesis that is consistent with a number of training examples that scales with the complexity of the hypothesis space and delta (confidence parameter), then the generalization error will be low.
+
+Now, the notes go into an explanation of the relevance of ln|H|, which can be understood as the number of bits required to represent all h in H. As H increases, the probability of choosing a hypothesis that works with m examples but fails to generalize increases.
+
+Finally, as an example of using the theorem (without proof), we prove PAC-learnability and state properties of monotone conjunctions. First, we know |H| = 2^n and ln|H| = n. Second, we have an algorithm that gives a hypothesis with m consistent values. From point 1, Theorem 1 tells us m need only be polynomial in size of n, 1/eps and 1/delta. Our algorithm does in fact give us hypotheses consistent with a number of labels that are polynomial in respect to the number of dimensions. Therefore monotone conjunctions are PAC-learnable with a polydata algorithm. 
+
+## Lecture #4
+In this lecture, we get into the proof of the PAC learnability theorem from the previous lecture. This theorem not only gives us a way to prove PAC learnability, but also provides an upper bound on the amount of training data necessary to attain a low error epsilon with confidence at least 1 - delta.
